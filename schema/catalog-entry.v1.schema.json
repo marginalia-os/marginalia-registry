@@ -68,11 +68,14 @@
     "artifact": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["url"],
+      "required": ["url", "format", "size"],
       "properties": {
         "url": { "type": "string" },
         "size": { "type": "integer", "minimum": 0 },
-        "format": { "type": "string" }
+        "format": {
+          "type": "string",
+          "enum": ["mpkg.zip"]
+        }
       }
     },
     "deprecatedBy": { "type": "string" },

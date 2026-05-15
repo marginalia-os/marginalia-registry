@@ -19,9 +19,9 @@ See [`schema/catalog-entry.v1.schema.json`](./schema/catalog-entry.v1.schema.jso
 
 ## Entries
 
-Example entries live in [`entries/`](./entries). They currently use `artifact.format: "folder-source"` and link to
-package folders in `marginalia-examples`. That is a bootstrap shape for humans and the early hub. Production catalog
-entries should point at immutable package archives with real checksums and signatures.
+Example entries live in [`entries/`](./entries). Package artifacts use `artifact.format: "mpkg.zip"` and point at
+release assets with fixed sizes and SHA-256 hashes. Signatures are optional during bootstrap, but release firmware should
+only trust signed catalog snapshots.
 
 ## Validate entries
 
@@ -44,4 +44,10 @@ for path in sorted(Path("entries").glob("*.json")):
     else:
         print(f"{path}: ok")
 PY
+```
+
+## Build a catalog snapshot
+
+```sh
+python3 tools/build_catalog.py --output dist/catalog.json
 ```

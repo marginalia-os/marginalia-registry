@@ -18,11 +18,12 @@
     "requiresPSRAM": false
   },
   "integrity": {
-    "sha256": "replace-me"
+    "sha256": "fc5efe97b8f9c72e448a68bbd004aa536f9d44d947db771b3d81c61261c1e247"
   },
   "artifact": {
-    "url": "https://github.com/marginalia-os/marginalia-examples/tree/main/dark-mode-theme",
-    "format": "folder-source"
+    "url": "https://github.com/marginalia-os/marginalia-examples/releases/download/examples-v0.1.0/org.marginalia.examples.dark-mode-0.1.0.mpkg.zip",
+    "format": "mpkg.zip",
+    "size": 1094
   },
   "releasedAt": "2026-05-15T00:00:00Z",
   "updatedAt": "2026-05-15T00:00:00Z"
