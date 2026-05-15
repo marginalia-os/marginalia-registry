@@ -3,15 +3,16 @@
 Metadata-only package registry for Marginalia.
 
 This repo stores package records, release channels, and compatibility metadata. It does not contain package source
-code.
+code. The registry follows an RT-Thread-style community index model: entries point at reviewed source repositories and
+release artifacts, while users deliberately opt in to packages.
 
 ## Responsibilities
 
 - list package versions and channels
-- record checksums and signatures
+- record source locations and release artifact checksums
 - track target compatibility
 - record deprecations and replacements
-- feed signed catalog snapshots to the hub and firmware
+- feed catalog snapshots to the hub and firmware
 
 ## Record shape
 
@@ -20,8 +21,9 @@ See [`schema/catalog-entry.v1.schema.json`](./schema/catalog-entry.v1.schema.jso
 ## Entries
 
 Example entries live in [`entries/`](./entries). Package artifacts use `artifact.format: "mpkg.zip"` and point at
-release assets with fixed sizes and SHA-256 hashes. Signatures are optional during bootstrap, but release firmware should
-only trust signed catalog snapshots.
+release assets with fixed sizes and SHA-256 hashes. Entries also include a `source` block with the package repository,
+subdirectory, and source ref used for review. Catalog signatures are intentionally optional for now; package integrity is
+checked with artifact hashes and registry changes are reviewed through GitHub.
 
 ## Validate entries
 

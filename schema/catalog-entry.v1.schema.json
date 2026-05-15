@@ -11,6 +11,7 @@
     "kind",
     "execution",
     "channel",
+    "source",
     "target",
     "integrity",
     "artifact"
@@ -35,6 +36,20 @@
     "summary": { "type": "string" },
     "author": { "type": "string" },
     "homepage": { "type": "string" },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "url", "ref"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["git"]
+        },
+        "url": { "type": "string" },
+        "path": { "type": "string" },
+        "ref": { "type": "string" }
+      }
+    },
     "target": {
       "type": "object",
       "additionalProperties": false,

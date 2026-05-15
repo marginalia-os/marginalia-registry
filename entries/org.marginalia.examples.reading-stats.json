@@ -9,6 +9,12 @@
   "summary": "Collects reading session statistics",
   "author": "Marginalia",
   "homepage": "https://github.com/marginalia-os/marginalia-examples/tree/main/reading-stats-module",
+  "source": {
+    "type": "git",
+    "url": "https://github.com/marginalia-os/marginalia-examples.git",
+    "path": "reading-stats-module",
+    "ref": "examples-v0.1.0"
+  },
   "target": {
     "devices": ["xteink-x3", "xteink-x4"],
     "chipFamilies": ["esp32-c3"],

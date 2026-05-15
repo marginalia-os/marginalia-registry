@@ -9,6 +9,12 @@
   "summary": "A simple standalone Hangman game",
   "author": "Marginalia",
   "homepage": "https://github.com/marginalia-os/marginalia-examples/tree/main/hangman-app",
+  "source": {
+    "type": "git",
+    "url": "https://github.com/marginalia-os/marginalia-examples.git",
+    "path": "hangman-app",
+    "ref": "examples-v0.1.0"
+  },
   "target": {
     "devices": ["xteink-x3", "xteink-x4"],
     "chipFamilies": ["esp32-c3"],

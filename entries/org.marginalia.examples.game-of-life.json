@@ -9,6 +9,12 @@
   "summary": "Conway's Game of Life for the sleep screen",
   "author": "Marginalia",
   "homepage": "https://github.com/marginalia-os/marginalia-examples/tree/main/game-of-life-sleep-screen",
+  "source": {
+    "type": "git",
+    "url": "https://github.com/marginalia-os/marginalia-examples.git",
+    "path": "game-of-life-sleep-screen",
+    "ref": "examples-v0.1.0"
+  },
   "target": {
     "devices": ["xteink-x3", "xteink-x4"],
     "chipFamilies": ["esp32-c3"],
