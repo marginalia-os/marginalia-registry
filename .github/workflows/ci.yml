@@ -1,0 +1,46 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  validate-registry:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: python -m pip install jsonschema
+
+      - name: Validate catalog entries
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          from jsonschema import Draft202012Validator
+
+          schema = json.loads(Path("schema/catalog-entry.v1.schema.json").read_text())
+          validator = Draft202012Validator(schema)
+          ok = True
+          for path in sorted(Path("entries").glob("*.json")):
+              entry = json.loads(path.read_text())
+              errors = sorted(validator.iter_errors(entry), key=lambda error: list(error.path))
+              if errors:
+                  ok = False
+                  print(f"{path}: invalid")
+                  for error in errors:
+                      location = ".".join(str(part) for part in error.path) or "<root>"
+                      print(f"  {location}: {error.message}")
+              else:
+                  print(f"{path}: ok")
+          raise SystemExit(0 if ok else 1)
+          PY
