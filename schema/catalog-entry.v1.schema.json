@@ -1,0 +1,81 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://marginalia-os.github.io/schemas/catalog-entry.v1.schema.json",
+  "title": "Marginalia Catalog Entry v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "name",
+    "version",
+    "kind",
+    "execution",
+    "channel",
+    "target",
+    "integrity",
+    "artifact"
+  ],
+  "properties": {
+    "id": { "type": "string" },
+    "name": { "type": "string" },
+    "version": { "type": "string" },
+    "kind": {
+      "type": "string",
+      "enum": ["theme", "sleep_screen", "reader_module", "integration", "app"]
+    },
+    "execution": {
+      "type": "string",
+      "enum": ["module", "app"]
+    },
+    "channel": {
+      "type": "string",
+      "enum": ["stable", "beta", "experimental"]
+    },
+    "summary": { "type": "string" },
+    "author": { "type": "string" },
+    "homepage": { "type": "string" },
+    "target": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["devices", "chipFamilies", "minFirmware", "apiLevel", "ramClass", "requiresPSRAM"],
+      "properties": {
+        "devices": {
+          "type": "array",
+          "items": { "type": "string" },
+          "minItems": 1
+        },
+        "chipFamilies": {
+          "type": "array",
+          "items": { "type": "string" },
+          "minItems": 1
+        },
+        "minFirmware": { "type": "string" },
+        "apiLevel": { "type": "integer" },
+        "ramClass": { "type": "string" },
+        "requiresPSRAM": { "type": "boolean" }
+      }
+    },
+    "integrity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["sha256"],
+      "properties": {
+        "sha256": { "type": "string" },
+        "signature": { "type": "string" }
+      }
+    },
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["url"],
+      "properties": {
+        "url": { "type": "string" },
+        "size": { "type": "integer", "minimum": 0 },
+        "format": { "type": "string" }
+      }
+    },
+    "deprecatedBy": { "type": "string" },
+    "releasedAt": { "type": "string" },
+    "updatedAt": { "type": "string" }
+  }
+}
