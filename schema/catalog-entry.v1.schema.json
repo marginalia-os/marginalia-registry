@@ -16,6 +16,7 @@
     "artifact"
   ],
   "properties": {
+    "$schema": { "type": "string" },
     "id": { "type": "string" },
     "name": { "type": "string" },
     "version": { "type": "string" },

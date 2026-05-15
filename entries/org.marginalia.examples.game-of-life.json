@@ -1,0 +1,29 @@
+{
+  "$schema": "../schema/catalog-entry.v1.schema.json",
+  "id": "org.marginalia.examples.game-of-life",
+  "name": "Game of Life",
+  "version": "0.1.0",
+  "kind": "sleep_screen",
+  "execution": "module",
+  "channel": "experimental",
+  "summary": "Conway's Game of Life for the sleep screen",
+  "author": "Marginalia",
+  "homepage": "https://github.com/marginalia-os/marginalia-examples/tree/main/game-of-life-sleep-screen",
+  "target": {
+    "devices": ["xteink-x3", "xteink-x4"],
+    "chipFamilies": ["esp32-c3"],
+    "minFirmware": "0.1.0",
+    "apiLevel": 1,
+    "ramClass": "low",
+    "requiresPSRAM": false
+  },
+  "integrity": {
+    "sha256": "replace-me"
+  },
+  "artifact": {
+    "url": "https://github.com/marginalia-os/marginalia-examples/tree/main/game-of-life-sleep-screen",
+    "format": "folder-source"
+  },
+  "releasedAt": "2026-05-15T00:00:00Z",
+  "updatedAt": "2026-05-15T00:00:00Z"
+}
