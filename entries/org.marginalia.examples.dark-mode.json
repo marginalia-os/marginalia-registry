@@ -2,18 +2,18 @@
   "$schema": "../schema/catalog-entry.v1.schema.json",
   "id": "org.marginalia.examples.dark-mode",
   "name": "Dark Mode",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "kind": "theme",
   "execution": "module",
   "channel": "experimental",
-  "summary": "A simple dark theme for the Marginalia reader UI",
+  "summary": "An OS-wide inverted screen theme for Marginalia",
   "author": "Marginalia",
   "homepage": "https://github.com/marginalia-os/marginalia-examples/tree/main/dark-mode-theme",
   "source": {
     "type": "git",
     "url": "https://github.com/marginalia-os/marginalia-examples.git",
     "path": "dark-mode-theme",
-    "ref": "examples-v0.1.0"
+    "ref": "examples-v0.1.1"
   },
   "target": {
     "devices": ["xteink-x3", "xteink-x4"],
@@ -24,12 +24,12 @@
     "requiresPSRAM": false
   },
   "integrity": {
-    "sha256": "fc5efe97b8f9c72e448a68bbd004aa536f9d44d947db771b3d81c61261c1e247"
+    "sha256": "d1a29671c7fea0f6f4486f5aa895ad18c6d0212eb5ab2071cb2b82431f7d53d2"
   },
   "artifact": {
-    "url": "https://github.com/marginalia-os/marginalia-examples/releases/download/examples-v0.1.0/org.marginalia.examples.dark-mode-0.1.0.mpkg.zip",
+    "url": "https://github.com/marginalia-os/marginalia-examples/releases/download/examples-v0.1.1/org.marginalia.examples.dark-mode-0.1.1.mpkg.zip",
     "format": "mpkg.zip",
-    "size": 1094
+    "size": 1394
   },
   "releasedAt": "2026-05-15T00:00:00Z",
   "updatedAt": "2026-05-15T00:00:00Z"
