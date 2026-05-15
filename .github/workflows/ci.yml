@@ -44,3 +44,6 @@ jobs:
                   print(f"{path}: ok")
           raise SystemExit(0 if ok else 1)
           PY
+
+      - name: Build catalog snapshot
+        run: python tools/build_catalog.py --generated-at 2026-05-15T00:00:00Z

@@ -18,11 +18,12 @@
     "requiresPSRAM": false
   },
   "integrity": {
-    "sha256": "replace-me"
+    "sha256": "2d19a896634536f5e8dcc94a3927a445317cc266e6bcaccfb675667fea5f38b9"
   },
   "artifact": {
-    "url": "https://github.com/marginalia-os/marginalia-examples/tree/main/hangman-app",
-    "format": "folder-source"
+    "url": "https://github.com/marginalia-os/marginalia-examples/releases/download/examples-v0.1.0/org.marginalia.examples.hangman-0.1.0.mpkg.zip",
+    "format": "mpkg.zip",
+    "size": 1115
   },
   "releasedAt": "2026-05-15T00:00:00Z",
   "updatedAt": "2026-05-15T00:00:00Z"

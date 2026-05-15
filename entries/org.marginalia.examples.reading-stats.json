@@ -18,11 +18,12 @@
     "requiresPSRAM": false
   },
   "integrity": {
-    "sha256": "replace-me"
+    "sha256": "b059480fdd10860a60ecba9f3ae7c729b1c4fe64e33493b8ece713ede2514a23"
   },
   "artifact": {
-    "url": "https://github.com/marginalia-os/marginalia-examples/tree/main/reading-stats-module",
-    "format": "folder-source"
+    "url": "https://github.com/marginalia-os/marginalia-examples/releases/download/examples-v0.1.0/org.marginalia.examples.reading-stats-0.1.0.mpkg.zip",
+    "format": "mpkg.zip",
+    "size": 1165
   },
   "releasedAt": "2026-05-15T00:00:00Z",
   "updatedAt": "2026-05-15T00:00:00Z"
