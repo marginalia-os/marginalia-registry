@@ -24,7 +24,7 @@
     "requiresPSRAM": false
   },
   "integrity": {
-    "sha256": "0e85d740ebfa005f6452e0398ff3bfde41014e274a9c24180b46bce5cce9839f"
+    "sha256": "f7da81ceb004d9b2a7a839ddc8abe5d978de55243aa76934c5e6d4486c8f39c3"
   },
   "artifact": {
     "url": "https://github.com/marginalia-os/marginalia-examples/releases/download/examples-v0.1.2/org.marginalia.examples.dark-mode-0.1.2.mpkg.zip",
