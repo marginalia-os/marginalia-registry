@@ -2,7 +2,7 @@
   "$schema": "../schema/catalog-entry.v1.schema.json",
   "id": "org.marginalia.examples.dark-mode",
   "name": "Dark Mode",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "kind": "theme",
   "execution": "module",
   "channel": "experimental",
@@ -13,7 +13,7 @@
     "type": "git",
     "url": "https://github.com/marginalia-os/marginalia-examples.git",
     "path": "dark-mode-theme",
-    "ref": "examples-v0.1.4"
+    "ref": "examples-v0.1.5"
   },
   "target": {
     "devices": ["xteink-x3", "xteink-x4"],
@@ -24,12 +24,12 @@
     "requiresPSRAM": false
   },
   "integrity": {
-    "sha256": "f73ee420a159f68c6f21499d5c64aee12c446684db7eb45c954b184c26941799"
+    "sha256": "8608d7d68634d37a3f860ef7714d3bc2a39ec66d52c5e515b01b2d29583a7baa"
   },
   "artifact": {
-    "url": "https://github.com/marginalia-os/marginalia-examples/releases/download/examples-v0.1.4/org.marginalia.examples.dark-mode-0.1.4.mpkg.zip",
+    "url": "https://github.com/marginalia-os/marginalia-examples/releases/download/examples-v0.1.5/org.marginalia.examples.dark-mode-0.1.5.mpkg.zip",
     "format": "mpkg.zip",
-    "size": 1620
+    "size": 1738
   },
   "releasedAt": "2026-05-16T00:00:00Z",
   "updatedAt": "2026-05-16T00:00:00Z"
