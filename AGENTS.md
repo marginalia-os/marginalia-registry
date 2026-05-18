@@ -11,6 +11,9 @@ source references, artifact URLs, sizes, and hashes. It does not store package s
 
 Validate entries:
 
+Prerequisites: `python3 -m pip install jsonschema`. Run this from the repo root so
+`schema/catalog-entry.v1.schema.json` and `entries/` are present.
+
 ```sh
 python3 - <<'PY'
 import json
@@ -46,4 +49,3 @@ python3 tools/build_catalog.py --output dist/catalog.json
 - Keep schema changes synchronized with `marginalia-sdk` and `marginalia-hub`.
 - Do not add package execution behavior here; registry is metadata only.
 - Keep generated `dist/catalog.json` consistent with `entries/` when committed.
-
