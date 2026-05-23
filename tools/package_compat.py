@@ -31,7 +31,7 @@ class TargetProfile:
             ram_class="low",
             has_psram=False,
             supported_kinds=frozenset({"theme", "sleep_screen", "reader_module", "integration", "app"}),
-            supported_executions=frozenset({"module", "app"}),
+            supported_executions=frozenset({"static", "module", "app"}),
             artifact_formats=frozenset({"mpkg.zip"}),
         )
 

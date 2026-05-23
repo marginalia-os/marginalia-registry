@@ -1,0 +1,36 @@
+{
+  "$schema": "../schema/catalog-entry.v1.schema.json",
+  "id": "org.marginalia.integrations.project-gutenberg",
+  "name": "Project Gutenberg",
+  "version": "0.1.0",
+  "kind": "integration",
+  "execution": "static",
+  "channel": "experimental",
+  "summary": "Adds Project Gutenberg as a free public-domain book catalog",
+  "author": "Marginalia",
+  "homepage": "https://github.com/marginalia-os/marginalia-examples/tree/main/project-gutenberg-integration",
+  "source": {
+    "type": "git",
+    "url": "https://github.com/marginalia-os/marginalia-examples.git",
+    "path": "project-gutenberg-integration",
+    "ref": "examples-v0.1.7"
+  },
+  "target": {
+    "devices": ["xteink-x3", "xteink-x4"],
+    "chipFamilies": ["esp32-c3"],
+    "minFirmware": "1.3.0",
+    "apiLevel": 1,
+    "ramClass": "low",
+    "requiresPSRAM": false
+  },
+  "integrity": {
+    "sha256": "358490245121d1011194660aeb456405ade405e6f30ac69a79c271c12c0e2d5d"
+  },
+  "artifact": {
+    "url": "https://github.com/marginalia-os/marginalia-examples/releases/download/examples-v0.1.7/org.marginalia.integrations.project-gutenberg-0.1.0.mpkg.zip",
+    "format": "mpkg.zip",
+    "size": 1227
+  },
+  "releasedAt": "2026-05-23T00:00:00Z",
+  "updatedAt": "2026-05-23T00:00:00Z"
+}

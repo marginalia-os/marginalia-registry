@@ -27,7 +27,7 @@
     },
     "execution": {
       "type": "string",
-      "enum": ["module", "app"]
+      "enum": ["static", "module", "app"]
     },
     "channel": {
       "type": "string",
