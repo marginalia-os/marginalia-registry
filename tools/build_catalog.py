@@ -10,6 +10,8 @@ from pathlib import Path
 
 from jsonschema import Draft202012Validator
 
+from package_compat import TargetProfile, evaluate_entry, format_reasons
+
 
 ROOT = Path(__file__).resolve().parents[1]
 SCHEMA_PATH = ROOT / "schema" / "catalog-entry.v1.schema.json"
@@ -32,6 +34,10 @@ def validate_entry(path: Path, validator: Draft202012Validator) -> dict[str, obj
             location = ".".join(str(part) for part in error.path) or "<root>"
             details.append(f"{location}: {error.message}")
         raise ValueError(f"{path}: " + "; ".join(details))
+
+    compatibility = evaluate_entry(entry, TargetProfile.xteink_x4_api1())
+    if not compatibility.installable:
+        raise ValueError(f"{path}: " + "; ".join(format_reasons(compatibility)))
 
     return entry
 
