@@ -22,6 +22,8 @@ def base_entry() -> dict[str, object]:
         "target": {
             "devices": ["xteink-x3", "xteink-x4"],
             "chipFamilies": ["esp32-c3"],
+            "architectures": ["esp32-c3"],
+            "osApi": {"major": 1, "minMinor": 0},
             "minFirmware": "1.3.0",
             "apiLevel": 1,
             "ramClass": "low",
@@ -30,6 +32,23 @@ def base_entry() -> dict[str, object]:
         "integrity": {"sha256": "abc123"},
         "artifact": {"url": "https://example.org/package.mpkg.zip", "format": "mpkg.zip", "size": 123},
     }
+
+
+def v2_theme_entry() -> dict[str, object]:
+    entry = base_entry()
+    entry["manifestSchemaVersion"] = 2
+    entry["kind"] = "theme"
+    entry["execution"] = "static"
+    entry["components"] = [
+        {
+            "id": "theme",
+            "type": "contribution",
+            "contract": "theme/1",
+            "activation": "always",
+            "requires": ["display"],
+        }
+    ]
+    return entry
 
 
 class RegistryCompatibilityTest(unittest.TestCase):
@@ -59,6 +78,30 @@ class RegistryCompatibilityTest(unittest.TestCase):
             [reason.code for reason in result.reasons],
             ["unsupported_device", "unsupported_api_level", "requires_psram", "requires_newer_firmware", "missing_artifact_hash"],
         )
+
+    def test_v2_declarative_entry_keeps_the_v1_catalog_bridge(self) -> None:
+        result = evaluate_entry(v2_theme_entry(), TargetProfile.xteink_x4_api1())
+
+        self.assertTrue(result.installable)
+        self.assertEqual(result.reasons, ())
+
+    def test_v2_executable_entry_reports_native_host_boundary(self) -> None:
+        entry = v2_theme_entry()
+        entry["kind"] = "app"
+        entry["execution"] = "app"
+        entry["nativeAbi"] = "marginalia-c-1"
+        entry["components"] = [
+            {
+                "id": "game",
+                "type": "app",
+                "activation": "on-demand",
+            }
+        ]
+
+        result = evaluate_entry(entry, TargetProfile.xteink_x4_api1())
+
+        self.assertFalse(result.installable)
+        self.assertEqual([reason.code for reason in result.reasons], ["unsupported_native_abi"])
 
 
 if __name__ == "__main__":

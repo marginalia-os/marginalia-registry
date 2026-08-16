@@ -20,6 +20,10 @@ class TargetProfile:
     supported_kinds: frozenset[str]
     supported_executions: frozenset[str]
     artifact_formats: frozenset[str]
+    supported_architectures: frozenset[str] = frozenset()
+    supported_os_api_major: int = 1
+    supported_os_api_minor: int = 0
+    supported_native_abis: frozenset[str] = frozenset()
 
     @classmethod
     def xteink_x4_api1(cls, firmware_version: str = "1.3.0") -> "TargetProfile":
@@ -33,6 +37,10 @@ class TargetProfile:
             supported_kinds=frozenset({"theme", "sleep_screen", "reader_module", "integration", "app"}),
             supported_executions=frozenset({"static", "module", "app"}),
             artifact_formats=frozenset({"mpkg.zip"}),
+            supported_architectures=frozenset({"esp32-c3"}),
+            supported_os_api_major=1,
+            supported_os_api_minor=0,
+            supported_native_abis=frozenset(),
         )
 
 
@@ -70,6 +78,14 @@ def parse_version(value: str) -> tuple[int, int, int] | None:
 def evaluate_entry(entry: dict[str, Any], profile: TargetProfile) -> CompatibilityResult:
     reasons: list[CompatibilityReason] = []
 
+    manifest_schema_version = entry.get("manifestSchemaVersion", 1)
+    if isinstance(manifest_schema_version, int) and manifest_schema_version > 2:
+        reasons.append(
+            CompatibilityReason(
+                "unsupported_schema", f"Manifest schema version {manifest_schema_version} is not supported."
+            )
+        )
+
     kind = entry.get("kind")
     if isinstance(kind, str) and kind not in profile.supported_kinds:
         reasons.append(CompatibilityReason("unsupported_kind", f"Package kind '{kind}' is not supported."))
@@ -77,6 +93,21 @@ def evaluate_entry(entry: dict[str, Any], profile: TargetProfile) -> Compatibili
     execution = entry.get("execution")
     if isinstance(execution, str) and execution not in profile.supported_executions:
         reasons.append(CompatibilityReason("unsupported_execution", f"Execution class '{execution}' is not supported."))
+
+    if manifest_schema_version == 2:
+        components = entry.get("components")
+        executable = isinstance(components, list) and any(
+            isinstance(component, dict) and component.get("type") in {"app", "service", "provider"}
+            for component in components
+        )
+        native_abi = entry.get("nativeAbi")
+        if executable and (not isinstance(native_abi, str) or native_abi not in profile.supported_native_abis):
+            reasons.append(
+                CompatibilityReason(
+                    "unsupported_native_abi",
+                    f"Native ABI '{native_abi or '<missing>'}' is not supported by this firmware.",
+                )
+            )
 
     target = entry.get("target")
     if isinstance(target, dict):
@@ -112,6 +143,36 @@ def _evaluate_target(target: dict[str, Any], profile: TargetProfile, reasons: li
         reasons.append(
             CompatibilityReason("unsupported_chip_family", f"Package does not target chip family '{profile.chip_family}'.")
         )
+
+    architectures = target.get("architectures")
+    if isinstance(architectures, list) and not any(
+        isinstance(architecture, str) and architecture in profile.supported_architectures
+        for architecture in architectures
+    ):
+        reasons.append(
+            CompatibilityReason(
+                "unsupported_architecture", f"Package does not target architecture for '{profile.device}'."
+            )
+        )
+
+    os_api = target.get("osApi")
+    if isinstance(os_api, dict):
+        major = os_api.get("major")
+        min_minor = os_api.get("minMinor", 0)
+        if isinstance(major, int) and major != profile.supported_os_api_major:
+            reasons.append(
+                CompatibilityReason(
+                    "unsupported_os_api",
+                    f"Requires OS API major {major}; this target provides major {profile.supported_os_api_major}."
+                )
+            )
+        elif isinstance(min_minor, int) and min_minor > profile.supported_os_api_minor:
+            reasons.append(
+                CompatibilityReason(
+                    "unsupported_os_api_minor",
+                    f"Requires OS API minor {min_minor}; this target provides minor {profile.supported_os_api_minor}."
+                )
+            )
 
     api_level = target.get("apiLevel", 1)
     if isinstance(api_level, int) and api_level > profile.package_api_level:

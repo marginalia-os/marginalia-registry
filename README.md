@@ -16,7 +16,10 @@ release artifacts, while users deliberately opt in to packages.
 
 ## Record shape
 
-See [`schema/catalog-entry.v1.schema.json`](./schema/catalog-entry.v1.schema.json)
+See [`schema/catalog-entry.v1.schema.json`](./schema/catalog-entry.v1.schema.json). The v1 catalog envelope remains
+stable for current firmware. Entries for manifest v2 may add `manifestSchemaVersion`, normalized `components`, and
+`nativeAbi`; they retain the legacy `kind`, `execution`, and projected target fields so older catalog consumers can
+still display and re-evaluate them.
 
 ## Entries
 
