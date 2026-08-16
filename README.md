@@ -24,6 +24,11 @@ stable for current firmware. Entries for manifest v2 may add `manifestSchemaVers
 consumers can still display and re-evaluate them. This is metadata only: as in RT-Thread’s package/index separation,
 the registry does not load, execute, or make a trust decision about package code.
 
+Native resource declarations remain inside the ABI descriptor and are not duplicated in catalog entries. The hub may
+show the coarse target `ramClass` and role-specific host availability, but the firmware is the only layer that can
+apply the exact frozen-board budget at activation. An unavailable role remains a capability result, not a package
+safety verdict or a reason to remove a user-selected package from the catalog.
+
 ## Entries
 
 Example entries live in [`entries/`](./entries). Package artifacts use `artifact.format: "mpkg.zip"` and point at
