@@ -103,6 +103,19 @@ class RegistryCompatibilityTest(unittest.TestCase):
         self.assertFalse(result.installable)
         self.assertEqual([reason.code for reason in result.reasons], ["unsupported_native_abi"])
 
+    def test_v2_entry_checks_architecture_and_os_api_minor(self) -> None:
+        entry = v2_theme_entry()
+        entry["target"] = {
+            **entry["target"],  # type: ignore[arg-type]
+            "architectures": ["esp32-s3"],
+            "osApi": {"major": 1, "minMinor": 1},
+        }
+
+        result = evaluate_entry(entry, TargetProfile.xteink_x4_api1())
+
+        self.assertFalse(result.installable)
+        self.assertEqual([reason.code for reason in result.reasons], ["unsupported_architecture", "unsupported_os_api_minor"])
+
 
 if __name__ == "__main__":
     unittest.main()
