@@ -29,6 +29,12 @@ show the coarse target `ramClass` and role-specific host availability, but the f
 apply the exact frozen-board budget at activation. An unavailable role remains a capability result, not a package
 safety verdict or a reason to remove a user-selected package from the catalog.
 
+The registry records release metadata, not device-local lifecycle state. Firmware may return `activationPending` after a
+user selects a release: the archive has been verified and staged, but its candidate version still needs a boot trial.
+There is no `activationPending` field in catalog entries. A release remains an immutable, user-selectable record while
+firmware independently decides whether its executable roles can run on the current board. `dataSchema` is likewise a
+firmware/package-state continuity concern and must not be guessed or duplicated in registry metadata.
+
 ## Entries
 
 Example entries live in [`entries/`](./entries). Package artifacts use `artifact.format: "mpkg.zip"` and point at
