@@ -58,6 +58,7 @@ class CompatibilityResult:
 
 
 RAM_CLASS_ORDER = {"low": 0, "medium": 1, "high": 2}
+NATIVE_MODULE_ENTRYPOINT = "marginalia_module_entry_v1"
 
 
 def parse_version(value: str) -> tuple[int, int, int] | None:
@@ -100,6 +101,18 @@ def evaluate_entry(entry: dict[str, Any], profile: TargetProfile) -> Compatibili
             isinstance(component, dict) and component.get("type") in {"app", "service", "provider"}
             for component in components
         )
+        if executable and isinstance(components, list) and any(
+            not isinstance(component, dict)
+            or component.get("type") in {"app", "service", "provider"}
+            and component.get("entrypoint") != NATIVE_MODULE_ENTRYPOINT
+            for component in components
+        ):
+            reasons.append(
+                CompatibilityReason(
+                    "invalid_native_entrypoint",
+                    f"Executable components must use '{NATIVE_MODULE_ENTRYPOINT}'.",
+                )
+            )
         native_abi = entry.get("nativeAbi")
         if executable and (not isinstance(native_abi, str) or native_abi not in profile.supported_native_abis):
             reasons.append(

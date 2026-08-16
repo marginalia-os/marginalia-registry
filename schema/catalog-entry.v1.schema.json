@@ -68,6 +68,10 @@
             "type": "string",
             "enum": ["on-demand", "manual", "boot", "always"]
           },
+          "entrypoint": {
+            "type": "string",
+            "const": "marginalia_module_entry_v1"
+          },
           "requires": {
             "type": "array",
             "maxItems": 16,
@@ -89,6 +93,16 @@
               }
             },
             "then": { "required": ["contract"] }
+          },
+          {
+            "if": {
+              "properties": {
+                "type": { "enum": ["app", "service", "provider"] }
+              }
+            },
+            "then": {
+              "required": ["entrypoint"]
+            }
           }
         ]
       }

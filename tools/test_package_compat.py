@@ -95,6 +95,7 @@ class RegistryCompatibilityTest(unittest.TestCase):
                 "id": "game",
                 "type": "app",
                 "activation": "on-demand",
+                "entrypoint": "marginalia_module_entry_v1",
             }
         ]
 
@@ -102,6 +103,28 @@ class RegistryCompatibilityTest(unittest.TestCase):
 
         self.assertFalse(result.installable)
         self.assertEqual([reason.code for reason in result.reasons], ["unsupported_native_abi"])
+
+    def test_v2_executable_entry_rejects_wrong_native_entrypoint(self) -> None:
+        entry = v2_theme_entry()
+        entry["kind"] = "app"
+        entry["execution"] = "app"
+        entry["nativeAbi"] = "marginalia-c-1"
+        entry["components"] = [
+            {
+                "id": "game",
+                "type": "app",
+                "activation": "on-demand",
+                "entrypoint": "launch",
+            }
+        ]
+
+        result = evaluate_entry(entry, TargetProfile.xteink_x4_api1())
+
+        self.assertFalse(result.installable)
+        self.assertEqual(
+            [reason.code for reason in result.reasons],
+            ["invalid_native_entrypoint", "unsupported_native_abi"],
+        )
 
     def test_v2_entry_checks_architecture_and_os_api_minor(self) -> None:
         entry = v2_theme_entry()
