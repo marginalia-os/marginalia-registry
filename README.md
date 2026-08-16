@@ -4,7 +4,8 @@ Metadata-only package registry for Marginalia.
 
 This repo stores package records, release channels, and compatibility metadata. It does not contain package source
 code. The registry follows an RT-Thread-style community index model: entries point at reviewed source repositories and
-release artifacts, while users deliberately opt in to packages.
+release artifacts, while users deliberately opt in to packages. Native runtime capabilities are evaluated per component
+role; a Service host is not an implicit App or Provider host.
 
 ## Responsibilities
 

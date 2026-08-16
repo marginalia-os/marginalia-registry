@@ -3,6 +3,7 @@
 
 from __future__ import annotations
 
+from dataclasses import replace
 import sys
 import unittest
 from pathlib import Path
@@ -125,6 +126,52 @@ class RegistryCompatibilityTest(unittest.TestCase):
             [reason.code for reason in result.reasons],
             ["invalid_native_entrypoint", "unsupported_native_abi"],
         )
+
+    def test_v2_service_entry_uses_role_specific_host_capability(self) -> None:
+        entry = v2_theme_entry()
+        entry["kind"] = "integration"
+        entry["execution"] = "module"
+        entry["nativeAbi"] = "marginalia-c-1"
+        entry["components"] = [
+            {
+                "id": "sync-service",
+                "type": "service",
+                "activation": "boot",
+                "entrypoint": "marginalia_module_entry_v1",
+            }
+        ]
+        profile = replace(
+            TargetProfile.xteink_x4_api1(),
+            supported_native_abis_by_role=(("service", frozenset({"marginalia-c-1"})),),
+        )
+
+        result = evaluate_entry(entry, profile)
+
+        self.assertTrue(result.installable)
+        self.assertEqual(result.reasons, ())
+
+    def test_v2_app_entry_does_not_inherit_service_host_capability(self) -> None:
+        entry = v2_theme_entry()
+        entry["kind"] = "app"
+        entry["execution"] = "app"
+        entry["nativeAbi"] = "marginalia-c-1"
+        entry["components"] = [
+            {
+                "id": "game",
+                "type": "app",
+                "activation": "on-demand",
+                "entrypoint": "marginalia_module_entry_v1",
+            }
+        ]
+        profile = replace(
+            TargetProfile.xteink_x4_api1(),
+            supported_native_abis_by_role=(("service", frozenset({"marginalia-c-1"})),),
+        )
+
+        result = evaluate_entry(entry, profile)
+
+        self.assertFalse(result.installable)
+        self.assertEqual([reason.code for reason in result.reasons], ["unsupported_native_abi"])
 
     def test_v2_entry_checks_architecture_and_os_api_minor(self) -> None:
         entry = v2_theme_entry()

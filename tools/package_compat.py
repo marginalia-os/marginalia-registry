@@ -24,6 +24,15 @@ class TargetProfile:
     supported_os_api_major: int = 1
     supported_os_api_minor: int = 0
     supported_native_abis: frozenset[str] = frozenset()
+    # New profiles can advertise native hosts per executable component role.
+    # Keep supported_native_abis as the compatibility fallback for older
+    # callers that only know the package-wide capability.
+    supported_native_abis_by_role: tuple[tuple[str, frozenset[str]], ...] = ()
+
+    def native_abis_for_role(self, role: str) -> frozenset[str]:
+        if not self.supported_native_abis_by_role:
+            return self.supported_native_abis
+        return dict(self.supported_native_abis_by_role).get(role, frozenset())
 
     @classmethod
     def xteink_x4_api1(cls, firmware_version: str = "1.3.0") -> "TargetProfile":
@@ -97,10 +106,12 @@ def evaluate_entry(entry: dict[str, Any], profile: TargetProfile) -> Compatibili
 
     if manifest_schema_version == 2:
         components = entry.get("components")
-        executable = isinstance(components, list) and any(
-            isinstance(component, dict) and component.get("type") in {"app", "service", "provider"}
-            for component in components
-        )
+        executable_components = [
+            component
+            for component in components or []
+            if isinstance(component, dict) and component.get("type") in {"app", "service", "provider"}
+        ]
+        executable = bool(executable_components)
         if executable and isinstance(components, list) and any(
             not isinstance(component, dict)
             or component.get("type") in {"app", "service", "provider"}
@@ -114,13 +125,15 @@ def evaluate_entry(entry: dict[str, Any], profile: TargetProfile) -> Compatibili
                 )
             )
         native_abi = entry.get("nativeAbi")
-        if executable and (not isinstance(native_abi, str) or native_abi not in profile.supported_native_abis):
-            reasons.append(
-                CompatibilityReason(
-                    "unsupported_native_abi",
-                    f"Native ABI '{native_abi or '<missing>'}' is not supported by this firmware.",
+        for component in executable_components:
+            role = component.get("type")
+            if not isinstance(native_abi, str) or native_abi not in profile.native_abis_for_role(role):
+                reasons.append(
+                    CompatibilityReason(
+                        "unsupported_native_abi",
+                        f"Native ABI '{native_abi or '<missing>'}' is not supported for {role} components.",
+                    )
                 )
-            )
 
     target = entry.get("target")
     if isinstance(target, dict):
