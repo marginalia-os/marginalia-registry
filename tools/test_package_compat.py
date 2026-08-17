@@ -105,6 +105,25 @@ class RegistryCompatibilityTest(unittest.TestCase):
         self.assertFalse(result.installable)
         self.assertEqual([reason.code for reason in result.reasons], ["unsupported_native_abi"])
 
+    def test_v2_entry_rejects_activation_that_does_not_match_role(self) -> None:
+        entry = v2_theme_entry()
+        entry["kind"] = "integration"
+        entry["execution"] = "module"
+        entry["nativeAbi"] = "marginalia-c-1"
+        entry["components"] = [
+            {
+                "id": "service",
+                "type": "service",
+                "activation": "on-demand",
+                "entrypoint": "marginalia_module_entry_v1",
+            }
+        ]
+
+        result = evaluate_entry(entry, TargetProfile.xteink_x4_api1())
+
+        self.assertFalse(result.installable)
+        self.assertEqual([reason.code for reason in result.reasons], ["invalid_activation_for_role"])
+
     def test_v2_executable_entry_rejects_wrong_native_entrypoint(self) -> None:
         entry = v2_theme_entry()
         entry["kind"] = "app"

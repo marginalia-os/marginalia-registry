@@ -69,6 +69,12 @@ class CompatibilityResult:
 
 RAM_CLASS_ORDER = {"low": 0, "medium": 1, "high": 2}
 NATIVE_MODULE_ENTRYPOINT = "marginalia_module_entry_v1"
+ALLOWED_ACTIVATIONS = {
+    "app": frozenset({"on-demand"}),
+    "service": frozenset({"manual", "boot", "always"}),
+    "provider": frozenset({"on-demand"}),
+    "contribution": frozenset({"always"}),
+}
 
 
 def parse_version(value: str) -> tuple[int, int, int] | None:
@@ -107,6 +113,18 @@ def evaluate_entry(entry: dict[str, Any], profile: TargetProfile) -> Compatibili
 
     if manifest_schema_version == 2:
         components = entry.get("components")
+        for component in components or []:
+            if not isinstance(component, dict):
+                continue
+            role = component.get("type")
+            activation = component.get("activation")
+            if role in ALLOWED_ACTIVATIONS and activation not in ALLOWED_ACTIVATIONS[role]:
+                reasons.append(
+                    CompatibilityReason(
+                        "invalid_activation_for_role",
+                        f"Activation '{activation or '<missing>'}' is not valid for {role} components.",
+                    )
+                )
         executable_components = [
             component
             for component in components or []

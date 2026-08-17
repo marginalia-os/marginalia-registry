@@ -23,6 +23,8 @@ stable for current firmware. Entries for manifest v2 may add `manifestSchemaVers
 `marginalia_module_entry_v1`. They retain the legacy `kind`, `execution`, and projected target fields so older catalog
 consumers can still display and re-evaluate them. This is metadata only: as in RT-Thread’s package/index separation,
 the registry does not load, execute, or make a trust decision about package code.
+The catalog schema also enforces the lifecycle shape: Apps and Providers are `on-demand`, Services are `manual`, `boot`,
+or `always`, and declarative Contributions are `always`.
 
 Native resource declarations remain inside the ABI descriptor and are not duplicated in catalog entries. The hub may
 show the coarse target `ramClass` and role-specific host availability, but the firmware is the only layer that can

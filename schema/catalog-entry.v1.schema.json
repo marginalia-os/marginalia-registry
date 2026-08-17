@@ -126,6 +126,38 @@
             "then": {
               "required": ["entrypoint"]
             }
+          },
+          {
+            "if": {
+              "properties": { "type": { "const": "app" } }
+            },
+            "then": {
+              "properties": { "activation": { "const": "on-demand" } }
+            }
+          },
+          {
+            "if": {
+              "properties": { "type": { "const": "provider" } }
+            },
+            "then": {
+              "properties": { "activation": { "const": "on-demand" } }
+            }
+          },
+          {
+            "if": {
+              "properties": { "type": { "const": "service" } }
+            },
+            "then": {
+              "properties": { "activation": { "enum": ["manual", "boot", "always"] } }
+            }
+          },
+          {
+            "if": {
+              "properties": { "type": { "const": "contribution" } }
+            },
+            "then": {
+              "properties": { "activation": { "const": "always" } }
+            }
           }
         ]
       }

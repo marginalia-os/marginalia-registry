@@ -59,6 +59,14 @@ class CatalogSchemaTest(unittest.TestCase):
         errors = list(self.validator.iter_errors(executable_entry("launch")))
         self.assertTrue(any("marginalia_module_entry_v1" in error.message for error in errors))
 
+    def test_component_activation_matches_role(self) -> None:
+        entry = executable_entry("marginalia_module_entry_v1")
+        entry["components"][0]["activation"] = "boot"  # type: ignore[index]
+
+        errors = list(self.validator.iter_errors(entry))
+
+        self.assertTrue(any("on-demand" in error.message for error in errors))
+
 
 if __name__ == "__main__":
     unittest.main()
