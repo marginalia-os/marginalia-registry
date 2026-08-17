@@ -33,6 +33,29 @@
       "type": "string",
       "enum": ["static", "module", "app"]
     },
+    "dependencies": {
+      "type": "array",
+      "maxItems": 32,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "version"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 96,
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]+$"
+          },
+          "version": {
+            "type": "string",
+            "minLength": 5,
+            "maxLength": 64,
+            "pattern": "^[0-9]{1,4}\\.[0-9]{1,4}\\.[0-9]{1,4}(?:[-+][A-Za-z0-9.-]+)?$"
+          }
+        }
+      }
+    },
     "nativeAbi": {
       "type": "string",
       "minLength": 1,
