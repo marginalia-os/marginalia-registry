@@ -39,6 +39,14 @@ package version as the release identity and rejects replacing an active version 
 should issue a new version for new bytes. `dataSchema` is likewise a
 firmware/package-state continuity concern and must not be guessed or duplicated in registry metadata.
 
+Open-source hardware fixtures under
+`marginalia-examples/hardware-fixtures/` are intentionally not registry
+entries. They provide reviewable ELF/package inputs for firmware and hardware
+matrices, but their build or preflight status is not a release claim. In
+particular, the native App and `reader.sync/1` Provider fixtures must not be
+added to `entries/` until their role-specific X3/X4 gates and release
+metadata are separately approved.
+
 ## Entries
 
 Example entries live in [`entries/`](./entries). Package artifacts use `artifact.format: "mpkg.zip"` and point at
