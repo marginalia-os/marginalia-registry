@@ -20,7 +20,7 @@
     "$schema": { "type": "string" },
     "id": { "type": "string" },
     "name": { "type": "string" },
-    "version": { "type": "string" },
+    "version": { "type": "string", "minLength": 1, "maxLength": 64 },
     "manifestSchemaVersion": {
       "type": "integer",
       "enum": [1, 2]
