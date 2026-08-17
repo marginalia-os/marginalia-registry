@@ -50,6 +50,7 @@ class TargetProfile:
             supported_os_api_major=1,
             supported_os_api_minor=0,
             supported_native_abis=frozenset(),
+            supported_native_abis_by_role=(("service", frozenset({"marginalia-c-1"})),),
         )
 
 

@@ -150,6 +150,25 @@ class RegistryCompatibilityTest(unittest.TestCase):
         self.assertTrue(result.installable)
         self.assertEqual(result.reasons, ())
 
+    def test_current_profile_admits_native_service(self) -> None:
+        entry = v2_theme_entry()
+        entry["kind"] = "integration"
+        entry["execution"] = "module"
+        entry["nativeAbi"] = "marginalia-c-1"
+        entry["components"] = [
+            {
+                "id": "storage-service",
+                "type": "service",
+                "activation": "boot",
+                "entrypoint": "marginalia_module_entry_v1",
+            }
+        ]
+
+        result = evaluate_entry(entry, TargetProfile.xteink_x4_api1())
+
+        self.assertTrue(result.installable)
+        self.assertEqual(result.reasons, ())
+
     def test_v2_app_entry_does_not_inherit_service_host_capability(self) -> None:
         entry = v2_theme_entry()
         entry["kind"] = "app"
